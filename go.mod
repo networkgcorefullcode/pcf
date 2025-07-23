@@ -1,5 +1,3 @@
-replace github.com/omec-project/openapi => github.com/networkgcorefullcode/openapi v1.5.0
-
 module github.com/omec-project/pcf
 
 go 1.24.0
