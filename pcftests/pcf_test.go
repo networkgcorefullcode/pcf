@@ -345,12 +345,12 @@ func TestGetUDRUri(t *testing.T) {
 		consumer.NRFCacheSearchNFInstances = origNRFCacheSearchNFInstances
 		consumer.SendNfDiscoveryToNrf = origSendNfDiscoveryToNrf
 	}()
-	consumer.NRFCacheSearchNFInstances = func(ctx context.Context, nrfUri string, targetNfType, requestNfType models.NfType, param *Nnrf_NFDiscovery.SearchNFInstancesParamOpts) (models.SearchResult, error) {
+	consumer.NRFCacheSearchNFInstances = func(nrfUri string, targetNfType, requestNfType models.NfType, param *Nnrf_NFDiscovery.SearchNFInstancesParamOpts) (models.SearchResult, error) {
 		t.Logf("test SearchNFInstance called")
 		callCountSearchNFInstances++
 		return searchResult1, nil
 	}
-	consumer.SendNfDiscoveryToNrf = func(ctx context.Context, nrfUri string, targetNfType, requestNfType models.NfType, param *Nnrf_NFDiscovery.SearchNFInstancesParamOpts) (models.SearchResult, error) {
+	consumer.SendNfDiscoveryToNrf = func(nrfUri string, targetNfType, requestNfType models.NfType, param *Nnrf_NFDiscovery.SearchNFInstancesParamOpts) (models.SearchResult, error) {
 		t.Logf("test SendNfDiscoveryToNrf called")
 		callCountSendNfDiscovery++
 		return searchResult2, nil
