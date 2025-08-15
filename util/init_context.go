@@ -89,4 +89,8 @@ func InitpcfContext(context *context.PCFContext) {
 			logger.UtilLog.Errorf("openapi NewSupportedFeature error: %+v", err)
 		}
 	}
+
+	if configuration.ManualConfigs != nil {
+		context.ManualConfig = configuration.ManualConfigs
+	}
 }

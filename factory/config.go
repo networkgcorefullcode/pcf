@@ -53,6 +53,8 @@ type Configuration struct {
 	PlmnList                 []PlmnSupportItem `yaml:"plmnList,omitempty"`
 	EnableNrfCaching         bool              `yaml:"enableNrfCaching"`
 	NrfCacheEvictionInterval int               `yaml:"nrfCacheEvictionInterval,omitempty"`
+
+	ManualConfigs *ManualConfig `yaml:"manualConfigs,omitempty"`
 }
 
 type Service struct {

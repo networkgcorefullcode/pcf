@@ -34,6 +34,17 @@ func InitConfigFactory(f string) error {
 		}
 	}
 
+	if PcfConfig.Configuration.ManualConfigs != nil {
+		logger.CfgLog.Infof("Manual Configuration provided for network functions")
+		for nfType, nfs := range PcfConfig.Configuration.ManualConfigs.NFs {
+			for _, nf := range nfs {
+				logger.CfgLog.Debugf("Manual Configuration - NF Type: %s, Name: %s, URL: %s, Port: %d", nfType, nf.NfInstanceName, nf.NfServices)
+			}
+		}
+	} else {
+		logger.CfgLog.Infof("No manual configuration provided for network functions")
+	}
+
 	return nil
 }
 

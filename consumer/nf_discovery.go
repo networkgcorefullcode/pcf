@@ -29,6 +29,13 @@ var (
 var SendSearchNFInstances = func(nrfUri string, targetNfType, requestNfType models.NfType, param *Nnrf_NFDiscovery.SearchNFInstancesParamOpts) (
 	models.SearchResult, error,
 ) {
+	if pcfContext.PCF_Self().ManualConfig != nil && pcfContext.PCF_Self().ManualConfig.Enabled {
+		// Use manual configuration
+		result, err := util.SearchNFInstancesWithManualConfig(pcfContext.PCF_Self().ManualConfig, targetNfType, requestNfType, param)
+		if err == nil && len(result.NfInstances) > 0 {
+			return result, nil
+		}
+	}
 	if pcfContext.PCF_Self().EnableNrfCaching {
 		return NRFCacheSearchNFInstances(nrfUri, targetNfType, requestNfType, param)
 	} else {
