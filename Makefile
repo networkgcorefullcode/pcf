@@ -6,12 +6,14 @@
 #
 
 PROJECT_NAME             := sdcore
-DOCKER_VERSION                  ?= $(shell cat ./VERSION)
+#DOCKER_VERSION                  ?= $(shell cat ./VERSION)
+PROJECT_VERSION                  ?= $(shell cat ./VERSION)
+
 
 ## Docker related
-DOCKER_REGISTRY          ?=
-DOCKER_REPOSITORY        ?=
-DOCKER_TAG               ?= ${DOCKER_VERSION}
+DOCKER_REGISTRY          ?= 192.168.12.15:8083/
+DOCKER_REPOSITORY        ?= omecproject/
+DOCKER_TAG               ?= ${PROJECT_VERSION}
 DOCKER_IMAGENAME         := ${DOCKER_REGISTRY}${DOCKER_REPOSITORY}${PROJECT_NAME}:${DOCKER_TAG}
 DOCKER_BUILDKIT          ?= 1
 DOCKER_BUILD_ARGS        ?=
@@ -75,13 +77,22 @@ clean:
 	rm -rf $(addprefix $(GO_BIN_PATH)/, $(GO_NF))
 	rm -rf $(addprefix $(GO_SRC_PATH)/, $(addsuffix /$(C_BUILD_PATH), $(C_NF)))
 
+print-branch:
+	@echo ${DOCKER_REPOSITORY}5gc-${DOCKER_TARGETS}-${DOCKER_TAG}
+
+print-tag:
+	@echo ${DOCKER_REPOSITORY}5gc-${DOCKER_TARGETS}:${DOCKER_TAG}
+
+print-target:
+	@echo ${DOCKER_TARGETS}
+
 docker-build:
 	@go mod vendor
 	for target in $(DOCKER_TARGETS); do \
 		DOCKER_BUILDKIT=$(DOCKER_BUILDKIT) docker build  $(DOCKER_BUILD_ARGS) \
 			--target $$target \
 			--tag ${DOCKER_REGISTRY}${DOCKER_REPOSITORY}5gc-$$target:${DOCKER_TAG} \
-			--build-arg org_label_schema_version="${DOCKER_VERSION}" \
+			--build-arg org_label_schema_version="${PROJECT_VERSION}" \
 			--build-arg org_label_schema_vcs_url="${DOCKER_LABEL_VCS_URL}" \
 			--build-arg org_label_schema_vcs_ref="${DOCKER_LABEL_VCS_REF}" \
 			--build-arg org_label_schema_build_date="${DOCKER_LABEL_BUILD_DATE}" \
