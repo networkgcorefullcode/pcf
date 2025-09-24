@@ -86,6 +86,9 @@ print-tag:
 print-target:
 	@echo ${DOCKER_TARGETS}
 
+mod-start:
+	cd ${GO_SRC_PATH} && go mod download
+
 docker-build:
 	@go mod vendor
 	for target in $(DOCKER_TARGETS); do \

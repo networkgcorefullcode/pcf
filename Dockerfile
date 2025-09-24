@@ -22,6 +22,13 @@ RUN apt-get update && \
 RUN go install github.com/go-task/task/v3/cmd/task@latest
 
 WORKDIR $GOPATH/src/pcf
+
+COPY go.mod .
+COPY go.sum .
+COPY Makefile .
+
+RUN make mod-start
+
 COPY . .
 RUN task build
 
@@ -35,8 +42,8 @@ ARG DEBUG_TOOLS
 
 # Install debug tools ~ 100MB (if DEBUG_TOOLS is set to true)
 RUN if [ "$DEBUG_TOOLS" = "true" ]; then \
-        apk update && apk add --no-cache -U vim strace net-tools curl netcat-openbsd bind-tools; \
-        fi
+    apk update && apk add --no-cache -U vim strace net-tools curl netcat-openbsd bind-tools; \
+    fi
 
 # Copy executable and default certs
 COPY --from=builder /go/src/pcf/bin/* /usr/local/bin/.
