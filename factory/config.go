@@ -46,6 +46,7 @@ type Configuration struct {
 	ServiceList              []Service `yaml:"serviceList,omitempty"`
 	EnableNrfCaching         bool      `yaml:"enableNrfCaching"`
 	NrfCacheEvictionInterval int       `yaml:"nrfCacheEvictionInterval,omitempty"`
+	MetricsPort              string    `yaml:"metricsPort,omitempty"`
 }
 
 type Service struct {

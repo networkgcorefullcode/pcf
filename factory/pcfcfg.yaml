@@ -1,10 +1,52 @@
 # SPDX-License-Identifier: Apache-2.0
-# SPDX-FileCopyrightText: 2024 Canonical Ltd.
+# SPDX-FileCopyrightText: 2025 Canonical Ltd.
+# SPDX-FileCopyrightText: 2021 Open Networking Foundation <info@opennetworking.org>
+
+info:
+  version: 1.0.0
+  description: PCF initial local configuration
 
 configuration:
-  defaultBdtRefId: BdtPolicyId-
-  nrfUri: https://nrf:443
-  pcfName: PCF
-info:
-  description: PCF initial local configuration
-  version: 1.0.0
+  pcfName: PCF # the name of this PCF
+  metricsPort: ":9134"
+  sbi: # Service-based interface information
+    scheme: http # the protocol for sbi (http or https)
+    registerIPv4: "172.28.31.5" # IP used to register to NRF
+    bindingIPv4: "0.0.0.0"  # IP used to bind the service
+    port: 29187 # port used to bind the service
+    tls: # the local path of TLS key
+      key: /support/TLS/pcf.key # PCF TLS Private key
+      pem: /support/TLS/pcf.pem # PCF TLS Certificate
+  timeFormat: 2006-01-02 15:04:05 # Time format for timestamps
+  defaultBdtRefId: BdtPolicyId- # Default BDT (Background Data Transfer) reference ID
+  nrfUri: http://localhost:29000 # a valid URI of NRF
+  webuiUri: http://localhost:5001 # WebUI URI
+  serviceList: # List of services provided by this PCF
+    - serviceName: npcf-am-policy-control # Npcf_AMPolicyControl service
+      suppFeat: 3fff # Supported features (hex string)
+    - serviceName: npcf-smpolicycontrol # Npcf_SMPolicyControl service
+      suppFeat: 3fff
+    - serviceName: npcf-bdtpolicycontrol # Npcf_BDTPolicyControl service
+      suppFeat: 3fff
+    - serviceName: npcf-policyauthorization # Npcf_PolicyAuthorization service
+      suppFeat: 3fff
+    - serviceName: npcf-eventexposure # Npcf_EventExposure service
+      suppFeat: 3fff
+    - serviceName: npcf-ue-policy-control # Npcf_UEPolicyControl service
+      suppFeat: 3fff
+  enableNrfCaching: true # Enable NRF caching
+  nrfCacheEvictionInterval: 60 # NRF cache eviction interval in seconds
+
+# the kind of log output
+# debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
+# ReportCaller: enable the caller report or not, value: true or false
+logger:
+  PCF:
+    debugLevel: info
+    ReportCaller: false
+  PathUtil:
+    debugLevel: info
+    ReportCaller: false
+  OpenApi:
+    debugLevel: info
+    ReportCaller: false
