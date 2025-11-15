@@ -21,19 +21,15 @@ configuration:
   defaultBdtRefId: BdtPolicyId- # Default BDT (Background Data Transfer) reference ID
   nrfUri: http://localhost:29000 # a valid URI of NRF
   webuiUri: http://localhost:5001 # WebUI URI
-  serviceList: # List of services provided by this PCF
-    - serviceName: npcf-am-policy-control # Npcf_AMPolicyControl service
-      suppFeat: 3fff # Supported features (hex string)
-    - serviceName: npcf-smpolicycontrol # Npcf_SMPolicyControl service
+  serviceList:
+    - serviceName: npcf-am-policy-control
+    - serviceName: npcf-smpolicycontrol
       suppFeat: 3fff
-    - serviceName: npcf-bdtpolicycontrol # Npcf_BDTPolicyControl service
-      suppFeat: 3fff
-    - serviceName: npcf-policyauthorization # Npcf_PolicyAuthorization service
-      suppFeat: 3fff
-    - serviceName: npcf-eventexposure # Npcf_EventExposure service
-      suppFeat: 3fff
-    - serviceName: npcf-ue-policy-control # Npcf_UEPolicyControl service
-      suppFeat: 3fff
+    - serviceName: npcf-bdtpolicycontrol
+    - serviceName: npcf-policyauthorization
+      suppFeat: 3
+    - serviceName: npcf-eventexposure
+    - serviceName: npcf-ue-policy-control
   enableNrfCaching: true # Enable NRF caching
   nrfCacheEvictionInterval: 60 # NRF cache eviction interval in seconds
 
