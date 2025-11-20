@@ -7,6 +7,7 @@ package polling
 
 import (
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -65,7 +66,12 @@ func fetchImsiQos(pollingEndpoint string) ([]nfConfigApi.ImsiQos, error) {
 	}
 	req.Header.Set("Accept", "application/json")
 
-	client := &http.Client{Timeout: initialPollingInterval}
+	client := &http.Client{
+		Timeout: initialPollingInterval,
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		},
+	}
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("HTTP GET %v failed: %w", pollingEndpoint, err)
